@@ -4,11 +4,21 @@ const Header = (props) => {
   )
 }
 
-const Content = (props) => {
+const Parts = (props) => {
   return (
     <p>
-      {props.part} {props.exercise}
+      {props.name} {props.exercises}
     </p>
+  )
+}
+
+const Content = (props) => {
+  return (
+    <div>
+      <Parts name={props.part} exercise= {props.exercise} />
+      <Parts name={props.part} exercise= {props.exercise} />
+      <Parts name={props.part} exercise= {props.exercise} />
+    </div>
   )
 }
 
