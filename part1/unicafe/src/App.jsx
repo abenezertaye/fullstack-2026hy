@@ -4,11 +4,14 @@ import { useState } from "react";
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 // Display Component
-const Display = ({ text, count }) => (
-  <p>
-    {text} {count}
-  </p>
-);
+const StaticLine = ({ text, value }) => {
+  return (
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
+  )
+}
 
 // Stat Component
 const Statistics = ({ good, bad, neutral, feedback }) => {
@@ -37,12 +40,16 @@ const Statistics = ({ good, bad, neutral, feedback }) => {
   return (
     <div>
       <h1>statistics</h1>
-      <Display text="good" count={good} />
-      <Display text="bad" count={bad} />
-      <Display text="neutral" count={neutral} />
-      <Display text="all" count={getTotal(good, bad, neutral)} />
-      <Display text="average" count={getAverage(good, bad, neutral)} />
-      <Display text="positive" count={getPositive(good, bad, neutral)} />
+      <table>
+        <tbody>
+          <StaticLine text="good" value={good} />
+          <StaticLine text="bad" value={bad} />
+          <StaticLine text="neutral" value={neutral} />
+          <StaticLine text="all" value={getTotal(good, bad, neutral)} />
+          <StaticLine text="average" value={getAverage(good, bad, neutral)} />
+          <StaticLine text="positive" value={getPositive(good, bad, neutral)} />
+        </tbody>
+      </table>
     </div>
   );
 };
