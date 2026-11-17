@@ -11,42 +11,52 @@ const Display = ({ text, count }) => (
 );
 
 // Stat Component
-const Statistics = ({good, bad, neutral})=>{
+const Statistics = ({ good, bad, neutral, feedback }) => {
+  if (!feedback) {
+    return (
+    <div>
+      <h1>statistics</h1>
+      <p>No feedback given</p>
+    </div>);
+  }
 
   //helper functions
   const getTotal = (good, bad, neutral) => good + bad + neutral;
 
   const getAverage = (good, bad, neutral) => {
     const total = getTotal(good, bad, neutral);
-    return total > 0 ? (good - bad / total): 0;
-  }
+    return total > 0 ? good - bad / total : 0;
+  };
 
-  const getPositive = (good, bad, neutral)=>{
+  const getPositive = (good, bad, neutral) => {
     const total = getTotal(good, bad, neutral);
-    
-    return total > 0 ? `${(good / total) * 100}%` : 0;
-  }
 
-  
+    return total > 0 ? `${(good / total) * 100}%` : 0;
+  };
+
   return (
     <div>
+      <h1>statistics</h1>
+      <Display text="good" count={good} />
+      <Display text="bad" count={bad} />
+      <Display text="neutral" count={neutral} />
       <Display text="all" count={getTotal(good, bad, neutral)} />
-      <Display text="average" count={getAverage(good, bad, neutral)}/>
-      <Display text="positive" count= {getPositive(good, bad, neutral)}/>
+      <Display text="average" count={getAverage(good, bad, neutral)} />
+      <Display text="positive" count={getPositive(good, bad, neutral)} />
     </div>
-  )
-  
-}
+  );
+};
 
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const [feedback, setFeedback] = useState(false);
 
-  const handleFeedback = (feedback, text) => () => {
-    const newFeedback = feedback + 1;
-
+  const handleFeedback = (res, text) => () => {
+    const newFeedback = res + 1;
+    setFeedback(true);
     if (text === "good") {
       return setGood(newFeedback);
     } else if (text === "neutral") {
@@ -55,7 +65,6 @@ const App = () => {
     return setBad(newFeedback);
   };
 
-  
   return (
     <div>
       <h1>give feedback</h1>
@@ -67,10 +76,7 @@ const App = () => {
       <Button onClick={handleFeedback(bad, "bad")} text="bad" />
 
       {/** report feedback */}
-      <Display text="good" count={good} />
-      <Display text="neutral" count={neutral} />
-      <Display text="bad" count={bad} />
-      <Statistics good={good} bad={bad} neutral={neutral} />
+      <Statistics good={good} bad={bad} neutral={neutral} feedback={feedback} />
     </div>
   );
 };
